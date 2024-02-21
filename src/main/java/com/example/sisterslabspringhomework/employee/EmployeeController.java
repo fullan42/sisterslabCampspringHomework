@@ -1,5 +1,8 @@
 package com.example.sisterslabspringhomework.employee;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.service.annotation.HttpExchange;
 
@@ -15,22 +18,23 @@ public class EmployeeController {
     }
 
     @HttpExchange("/create")
-    public CreateEmployeeResponse create(CreateEmployeeRequest request) {
-        return employeeService.createEmployee(request);
+    public ResponseEntity<CreateEmployeeResponse> create(@RequestBody CreateEmployeeRequest request) {
+        CreateEmployeeResponse response = employeeService.createEmployee(request);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @HttpExchange("/updateName")
-    public UpdateEmployeeResponse updateName(UpdateEmployeeRequest request) {
-        return employeeService.updateEmployeeName(request);
+    public ResponseEntity<UpdateEmployeeResponse> updateName(UpdateEmployeeRequest request) {
+        return new ResponseEntity<>(employeeService.updateEmployeeName(request), HttpStatus.OK);
     }
 
     @HttpExchange("/get")
-    public GetEmployeeResponse get(GetEmployeeRequest request) {
-        return employeeService.getEmployee(request);
+    public ResponseEntity<GetEmployeeResponse> get(GetEmployeeRequest request) {
+        return new ResponseEntity<>(employeeService.getEmployee(request), HttpStatus.OK);
     }
     @HttpExchange("/getAll")
-    public List<GetEmployeeResponse> getAll() {
-        return employeeService.getAllEmployees();
+    public ResponseEntity<List<GetEmployeeResponse>> getAll() {
+        return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
     }
 
     @HttpExchange("/delete")
